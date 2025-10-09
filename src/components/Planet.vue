@@ -18,12 +18,15 @@ let renderer, scene, camera, frameId;
 let planet, ring, moon, moonOrbit;
 let rootGroup;
 let orbitAngle = 0;
+let isVisible = true;
+let intersectionObserver;
+let prefersReducedMotion;
 
 function init() {
   // Renderer
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.setSize(container.value.clientWidth, container.value.clientHeight);
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -54,7 +57,7 @@ function init() {
   const fill = new THREE.AmbientLight(0x404040, 0.5);
   scene.add(fill);
 
-  const planetGeo = new THREE.SphereGeometry(1.65, 192, 192);
+  const planetGeo = new THREE.SphereGeometry(1.65, 96, 96);
   const planetMat = new THREE.MeshPhysicalMaterial({
     color: 0xfafafa,
     roughness: 0.5,
@@ -67,7 +70,7 @@ function init() {
   planet.position.set(0, -0.15, 0);
   rootGroup.add(planet);
 
-  const ringGeo = new THREE.TorusGeometry(2.2, 0.055, 32, 320);
+  const ringGeo = new THREE.TorusGeometry(2.2, 0.055, 24, 200);
   const ringMat = new THREE.MeshPhysicalMaterial({
     color: 0xd9a441,
     metalness: 1.0,
@@ -87,7 +90,7 @@ function init() {
   moonOrbit.rotation.x = THREE.MathUtils.degToRad(12);
   rootGroup.add(moonOrbit);
 
-  const moonGeo = new THREE.SphereGeometry(0.36, 80, 80);
+  const moonGeo = new THREE.SphereGeometry(0.36, 48, 48);
   const moonMat = new THREE.MeshPhysicalMaterial({
     color: 0xd9a441,
     metalness: 1.0,
@@ -133,9 +136,13 @@ function frameScene() {
   camera.updateProjectionMatrix();
 }
 
-function animate() {
-  frameId = requestAnimationFrame(animate);
-  
+function tick() {
+  if (prefersReducedMotion?.matches || !isVisible) {
+    frameId = undefined;
+    return;
+  }
+
+  frameId = requestAnimationFrame(tick);
   // Moon orbit
   orbitAngle += 0.003;
   moonOrbit.rotation.y = orbitAngle;
@@ -144,13 +151,63 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+function startAnimation() {
+  if (frameId != null) return;
+  frameId = requestAnimationFrame(tick);
+}
+
+function stopAnimation() {
+  if (frameId == null) return;
+  cancelAnimationFrame(frameId);
+  frameId = undefined;
+}
+
 onMounted(() => {
   init();
-  animate();
+
+  prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const handlePRM = () => {
+    if (prefersReducedMotion.matches) {
+      stopAnimation();
+      renderer.render(scene, camera);
+    } else if (isVisible) {
+      startAnimation();
+    }
+  };
+  prefersReducedMotion.addEventListener?.('change', handlePRM);
+
+  intersectionObserver = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    isVisible = Boolean(entry?.isIntersecting);
+    if (isVisible && !prefersReducedMotion.matches) {
+      startAnimation();
+    } else {
+      stopAnimation();
+      renderer.render(scene, camera);
+    }
+  }, { threshold: 0.1 });
+  if (container.value) intersectionObserver.observe(container.value);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAnimation();
+    } else if (isVisible && !prefersReducedMotion.matches) {
+      startAnimation();
+    }
+  });
+
+  // Initial start
+  if (!prefersReducedMotion.matches) {
+    startAnimation();
+  } else {
+    renderer.render(scene, camera);
+  }
 });
 onBeforeUnmount(() => {
-  cancelAnimationFrame(frameId);
+  stopAnimation();
   window.removeEventListener('resize', onWindowResize);
+  prefersReducedMotion?.removeEventListener?.('change', () => {});
+  intersectionObserver?.disconnect?.();
   renderer?.dispose?.();
 });
 

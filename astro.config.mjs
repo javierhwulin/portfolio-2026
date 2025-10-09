@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 
 import vue from "@astrojs/vue";
+import compress from "astro-compress";
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,5 +11,14 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [vue()],
+  integrations: [
+    vue(),
+    compress({
+      html: true,
+      css: true,
+      js: true,
+      svg: true,
+      img: true,
+    }),
+  ],
 });

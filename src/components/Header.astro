@@ -17,7 +17,11 @@ const { title, description } = Astro.props;
   <div
     class="absolute bottom-0 left-0 w-full h-[50vh] md:top-0 md:bottom-auto md:left-auto md:right-0 md:w-[120vw] md:h-full md:translate-x-[33%]"
   >
-    <Planet client:load backgroundColor="#100c08" fitPadding={0.75} />
+    <Planet
+      client:media="screen and (min-width: 768px) and (prefers-reduced-motion: no-preference)"
+      backgroundColor="#100c08"
+      fitPadding={0.75}
+    />
   </div>
 
   <!-- Overlapping Text Content -->
