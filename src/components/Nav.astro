@@ -1,0 +1,89 @@
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 z-20 w-[min(92%,1200px)]">
+  <div
+    class="glass h-14 w-full rounded-full flex items-center justify-between px-5"
+    role="navigation"
+    aria-label="Main navigation"
+  >
+    <a
+      href="#hero-header"
+      class="group inline-flex items-center gap-3 focus:outline-none"
+    >
+      <span
+        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-[#ffe9b1] font-semibold shadow-sm group-hover:border-[#ffe9b1]/50 transition-colors"
+      >
+        JH
+      </span>
+      <span class="text-white/90 group-hover:text-white transition-colors">
+        Javier Hengda
+      </span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-1">
+      <a
+        href="#hero-header"
+        data-navlink
+        class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+        >Home</a
+      >
+      <a
+        href="#projects"
+        data-navlink
+        class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+        >Projects</a
+      >
+      <a
+        href="#about"
+        data-navlink
+        class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+        >About</a
+      >
+      <a
+        href="#skills"
+        data-navlink
+        class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+        >Skills</a
+      >
+      <a
+        href="#contact"
+        data-navlink
+        class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+        >Contact</a
+      >
+    </div>
+  </div>
+</nav>
+
+<script>
+  const links = Array.from(document.querySelectorAll("a[data-navlink]"));
+  const linkById = new Map(
+    links.map((el) => [(el.getAttribute("href") || "").replace("#", ""), el])
+  );
+
+  const ids = ["hero-header", "about", "projects", "skills", "contact"];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute("id");
+        const link = id ? linkById.get(id) : undefined;
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach((a) => a.classList.remove("active-nav"));
+          link.classList.add("active-nav");
+        }
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 1] }
+  );
+
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+
+<style>
+  .active-nav {
+    color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.06);
+  }
+</style>
