@@ -1,8 +1,8 @@
 ---
 const navLinks = [
   { name: "Home", href: "#hero-header" },
-  { name: "Projects", href: "#projects" },
   { name: "About", href: "#about" },
+  { name: "Projects", href: "#projects" },
   { name: "Skills", href: "#skills" },
   { name: "Contact", href: "#contact" },
 ];
@@ -131,7 +131,7 @@ const navLinks = [
     linksByHref.get(href)?.push(el);
   });
 
-  const ids = ["hero-header", "projects", "about", "skills", "contact"];
+  const ids = ["hero-header", "about", "projects", "skills", "contact"];
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
