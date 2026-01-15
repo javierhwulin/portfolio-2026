@@ -1,8 +1,8 @@
 ---
 const navLinks = [
   { name: "Home", href: "#hero-header" },
-  { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
+  { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Contact", href: "#contact" },
 ];
@@ -29,13 +29,20 @@ const navLinks = [
     </a>
 
     <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center gap-1">
+    <div class="hidden md:flex items-center gap-2">
+      <a
+        href="#hero-header"
+        data-navlink
+        class="nav-link px-4 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors active-nav"
+      >
+        Home
+      </a>
       {
-        navLinks.map((link) => (
+        navLinks.slice(1).map((link) => (
           <a
             href={link.href}
             data-navlink
-            class="px-3 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
+            class="nav-link px-4 py-2 rounded-full text-white/80 hover:text-[#ffe9b1] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe9b1]/40 transition-colors"
           >
             {link.name}
           </a>
@@ -113,20 +120,29 @@ const navLinks = [
 
   // Active nav link observer
   const links = Array.from(document.querySelectorAll("a[data-navlink]"));
-  const linkById = new Map(
-    links.map((el) => [(el.getAttribute("href") || "").replace("#", ""), el])
-  );
+  
+  // Group links by their href (to handle both desktop and mobile nav)
+  const linksByHref = new Map<string, Element[]>();
+  links.forEach((el) => {
+    const href = (el.getAttribute("href") || "").replace("#", "");
+    if (!linksByHref.has(href)) {
+      linksByHref.set(href, []);
+    }
+    linksByHref.get(href)?.push(el);
+  });
 
-  const ids = ["hero-header", "about", "projects", "skills", "contact"];
+  const ids = ["hero-header", "projects", "about", "skills", "contact"];
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         const id = entry.target.getAttribute("id");
-        const link = id ? linkById.get(id) : undefined;
-        if (!link) return;
+        const matchingLinks = id ? linksByHref.get(id) : undefined;
+        if (!matchingLinks) return;
         if (entry.isIntersecting) {
+          // Remove active from all links
           links.forEach((a) => a.classList.remove("active-nav"));
-          link.classList.add("active-nav");
+          // Add active to all links with matching href
+          matchingLinks.forEach((link) => link.classList.add("active-nav"));
         }
       });
     },
@@ -140,9 +156,15 @@ const navLinks = [
 </script>
 
 <style>
+  .nav-link {
+    font-weight: 500;
+  }
+
   .active-nav {
-    color: var(--color-accent);
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-accent) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    font-weight: 500;
+    border-radius: 9999px;
   }
 
   .mobile-menu-closed {
