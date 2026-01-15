@@ -1,0 +1,171 @@
+%-------------------------
+% Resume in LaTeX – updated January 2026
+% Author : Javier Hengda Wu Lin
+%------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[utf8]{inputenc}      % ensure UTF-8 encoding
+\usepackage[T1]{fontenc}         % ensure proper font encoding for symbols
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\usepackage[sfdefault]{noto-sans}
+
+% ---------- color definitions ----------
+\definecolor{accent}{HTML}{2563EB}
+\definecolor{darktext}{HTML}{1F2937}
+\definecolor{lighttext}{HTML}{6B7280}
+
+% ---------- layout tweaks ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\pdfgentounicode=1
+\setlist[itemize]{leftmargin=0.15in, itemsep=4pt, topsep=3pt}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% ---------- section formatting ----------
+\titleformat{\section}{
+  \vspace{4pt}\color{darktext}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{accent}\titlerule \vspace{-2pt}]
+
+% ---------- custom commands ----------
+\newcommand{\resumeItem}[1]{\item {\small\color{darktext} #1\vspace{-1pt}}}
+\newcommand{\metric}[1]{\textbf{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\color{darktext}#1} & \color{lighttext}#2 \\
+      \textit{\small\color{lighttext}#3} & \textit{\small\color{lighttext}#4} \\
+    \end{tabular*}\vspace{-4pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{\color{darktext}#1} & \textit{\small\color{lighttext}#2} \\
+    \end{tabular*}\vspace{-2pt}
+}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+
+% -------------------------------------------
+%%%%%%%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%
+\begin{document}
+
+% ---------- HEADING ----------
+\begin{center}
+    {\Huge \scshape\color{darktext} Javier Hengda Wu Lin}\\[6pt]
+    \small\color{lighttext}
+    Barcelona, Spain \,$\cdot$\, +34 617 864 435 \,$\cdot$\,
+    \href{mailto:javier.hwulin.devtech@gmail.com}{javier.hwulin.devtech@gmail.com}\\[3pt]
+    \href{https://github.com/javierwulin}{GitHub} \,$\cdot$\,
+    \href{https://www.linkedin.com/in/JavierHengdaWuLin}{LinkedIn} \,$\cdot$\,
+    \href{https://javierhengda.vercel.app/}{Portfolio}
+\end{center}
+
+% ---------- SUMMARY ----------
+\section{Summary}
+\small{Backend Software Engineer graduating Dec 2026, seeking SDE Intern roles. Built production-grade APIs on GCP with Spring Boot, Terraform, and Docker. Passionate about distributed systems, clean architecture, and DevOps automation.}
+
+% ---------- EDUCATION ----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {University of Barcelona}{Barcelona, Spain}
+    {B.Sc.\ Computer Engineering}{Sep 2022 -- Dec 2026}
+  \resumeItemListStart
+    \resumeItem{Relevant coursework: Distributed Systems, Software Design, Algorithms, Operating Systems, Databases, AI.}
+  \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+% ---------- PROJECTS \& RESEARCH ----------
+\section{Projects \& Research}
+\resumeSubHeadingListStart
+\resumeProjectHeading
+  {Kofre – Personal \& Social Banking Backend \emph{(Java · Spring Boot · GCP · Terraform · Docker)}}{2025}
+\begin{itemize}[leftmargin=0.15in, itemsep=5pt, topsep=3pt]
+  \resumeItem{Built \metric{50+ endpoint} RESTful API with Spring Boot 3.5 and Java 21, applying Clean Architecture and DDD for banking ops: accounts, cards, transfers, Bizum, shared expenses.}
+  \resumeItem{Automated CI/CD with Cloud Build and Docker multi-stage builds—\metric{sub-3-min deployments} to Cloud Run with zero-downtime rollouts and \metric{0→8 instance} autoscaling.}
+  \resumeItem{Codified infrastructure via \metric{5 Terraform modules} (Cloud Run, IAM, VPC, Artifact Registry, Secret Manager), cutting provisioning from hours to \metric{\textless{}10 min}.}
+  \resumeItem{Integrated Firestore with repository pattern; enforced quality via JaCoCo, Checkstyle, and Spotless in CI pipeline.}
+\end{itemize}
+
+\resumeProjectHeading
+  {Battleship – Full-Stack Multiplayer Game \emph{(Python · Django · Vue.js · Pinia · JWT)}}{2025}
+\begin{itemize}[leftmargin=0.15in, itemsep=5pt, topsep=3pt]
+  \resumeItem{Built real-time multiplayer Battleship with Django REST + Vue.js 3—\metric{4 game phases}, turn-based logic, and session recovery.}
+  \resumeItem{Engineered probabilistic AI using hunt/target algorithms for intelligent targeting after successful hits.}
+  \resumeItem{Secured API with JWT auth and nested DRF routers; managed state via Pinia for real-time sync across sessions.}
+\end{itemize}
+
+\resumeProjectHeading
+  {CookBookApp – Recipe Manager \emph{(Java · Android · Firebase)}}{2024}
+\begin{itemize}[leftmargin=0.15in, itemsep=5pt, topsep=3pt]
+  \resumeItem{Developed Android recipe app with offline-first caching, search, and auth using MVVM + Clean Architecture.}
+  \resumeItem{Integrated Firebase Auth and Firestore for real-time sync, supporting \metric{100+ recipes} per user.}
+  \resumeItem{Led \metric{4-member} Agile team through \metric{6 sprints}, delivering \metric{95\%} of scoped features on schedule.}
+\end{itemize}
+
+\resumeProjectHeading
+  {imUB – Media Library Manager \emph{(Java 17 · JavaFX · SQLite)}}{2023}
+\begin{itemize}[leftmargin=0.15in, itemsep=5pt, topsep=3pt]
+  \resumeItem{Built \metric{30-class} desktop app (\metric{8k+ LOC}) for media library management with live Top-10 rankings.}
+  \resumeItem{Applied \metric{4 GoF patterns} (Observer, Factory, Strategy, Singleton) to decouple components and enable real-time UI.}
+  \resumeItem{Optimized DAO with batched queries and indexing—\metric{60\% latency reduction} to under \metric{150ms}.}
+\end{itemize}
+
+\resumeSubHeadingListEnd
+
+% ---------- TECHNICAL SKILLS ----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt]
+  \small\color{darktext}{
+  \item \textbf{Languages:} Java, Python, TypeScript/JavaScript, Go, SQL, C/C++
+  \item \textbf{Backend:} Spring Boot, Django, FastAPI, Node.js/Express, REST, GraphQL, gRPC
+  \item \textbf{Cloud \& DevOps:} GCP (Cloud Run, Cloud Build, IAM), Docker, Kubernetes, Terraform, GitHub Actions
+  \item \textbf{Data:} PostgreSQL, Firestore, MongoDB, Redis, SQLite
+  \item \textbf{Testing:} JUnit, PyTest, Mockito, Selenium, JaCoCo, TDD
+  \item \textbf{Practices:} Clean Architecture, DDD, Microservices, Design Patterns, CI/CD, Agile/Scrum
+  }
+\end{itemize}
+\vspace{-8pt}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small\color{darktext}{
+  \item \textbf{Spoken:} Spanish (Native), English (Fluent), Chinese (Conversational)
+  }
+\end{itemize}
+% ---------- CERTIFICATIONS ----------
+\section{Certifications}
+\resumeSubHeadingListStart
+  \resumeProjectHeading{Mathematics for Machine Learning \emph{(Imperial College London)}}{May 2024}
+  \resumeProjectHeading{IBM Data Analyst Professional Certificate}{Apr 2024}
+\resumeSubHeadingListEnd
+
+\end{document}

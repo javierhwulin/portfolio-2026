@@ -5,34 +5,25 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Javier Hengda - Backend Engineer & Full-Stack Developer. Building robust, scalable applications with modern technologies." />
+    <meta name="keywords" content="Backend Engineer, Full-Stack Developer, Software Engineer, Java, Python, TypeScript, Vue, Django, SpringBoot" />
+    <meta property="og:title" content="Javier Hengda - Backend Engineer" />
+    <meta property="og:description" content="Building robust, scalable applications with modern technologies." />
+    <meta property="og:type" content="website" />
+    
+    <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Preload Google Fonts CSS to reduce CLS -->
+    
+    <!-- Load fonts with display=swap for better performance -->
     <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
-    <title>Javier Hengda</title>
+    
+    <title>Javier Hengda — Backend Engineer</title>
   </head>
   <body>
     <slot />
@@ -42,18 +33,19 @@
 <style is:global>
   @import "tailwindcss";
   @plugin "@midudev/tailwind-animations";
+
   :root {
     /* Color system */
-    --color-bg: #100c08; /* near-black brown */
-    --color-bg-2: #0c0906; /* deeper tone for gradients */
+    --color-bg: #0a0908;
+    --color-bg-2: #050403;
     --color-fg: #ffffff;
     --color-fg-muted: #e5e7eb;
-    --color-accent: #ffe9b1; /* warm gold */
+    --color-accent: #ffe9b1;
     --color-accent-2: #d9a441;
 
     /* Surface */
-    --surface: rgba(255, 255, 255, 0.04);
-    --surface-border: rgba(255, 255, 255, 0.1);
+    --surface: rgba(255, 255, 255, 0.03);
+    --surface-border: rgba(255, 255, 255, 0.08);
 
     /* Effects */
     --ring: rgba(255, 233, 177, 0.5);
@@ -66,8 +58,6 @@
 
   html,
   body {
-    margin: 0;
-    padding: 0;
     width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
@@ -78,63 +68,50 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem; /* account for fixed nav */
+    scroll-padding-top: 6rem;
   }
 
   body {
-    /* Layered background for depth */
-    background: radial-gradient(
-        1200px 600px at 80% 10%,
-        rgba(255, 233, 177, 0.08),
+    font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+    background-color: var(--color-bg);
+    background-image: 
+      radial-gradient(
+        ellipse 1000px 600px at 85% 5%,
+        rgba(255, 233, 177, 0.06),
         transparent 60%
       ),
       radial-gradient(
-        800px 400px at 10% 20%,
-        rgba(255, 233, 177, 0.06),
+        ellipse 700px 500px at 5% 30%,
+        rgba(255, 233, 177, 0.04),
         transparent 55%
       ),
-      linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-2) 100%);
-    background-color: var(--color-bg);
+      radial-gradient(
+        ellipse 600px 400px at 50% 100%,
+        rgba(217, 164, 65, 0.03),
+        transparent 60%
+      );
+    background-attachment: fixed;
+    color: var(--color-fg);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family:
-      "IBM Plex Sans",
-      "Noto Sans",
-      system-ui,
-      -apple-system,
-      sans-serif;
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
-  body,
-  p,
-  span,
-  a,
-  li,
-  ul,
-  ol,
-  blockquote,
-  pre,
-  code,
-  textarea,
-  input,
-  select,
-  button {
-    font-family:
-      "IBM Plex Sans",
-      "Noto Sans",
-      system-ui,
-      -apple-system,
-      sans-serif;
+
+  p, span, a, li, button {
+    font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  code, pre, .mono {
+    font-family: "IBM Plex Mono", monospace;
   }
 
   ::selection {
     background: var(--color-accent);
-    color: #1a1a1a;
+    color: var(--color-bg);
   }
 
   a {
@@ -142,12 +119,74 @@
     color: inherit;
   }
 
+  /* Section Container */
+  .section-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
   /* Utility: glass surface */
   .glass {
     background: var(--surface);
-    backdrop-filter: saturate(140%) blur(10px);
-    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
     border: 1px solid var(--surface-border);
     box-shadow: var(--shadow);
+  }
+
+  /* Smooth fade transitions between sections */
+  section {
+    position: relative;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Focus visible styles */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
   }
 </style>
