@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0908" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
@@ -13,15 +14,31 @@
     <meta property="og:description" content="Building robust, scalable applications with modern technologies." />
     <meta property="og:type" content="website" />
     
-    <!-- Preconnect to Google Fonts -->
+    <!-- Resource hints for external domains -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://github.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <!-- Load fonts with display=swap for better performance -->
+    <!-- Non-blocking font loading with preload -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     
     <title>Javier Hengda — Backend Engineer</title>
   </head>
@@ -74,6 +91,14 @@
   body {
     font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
     background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     background-image: 
       radial-gradient(
         ellipse 1000px 600px at 85% 5%,
@@ -90,8 +115,7 @@
         rgba(217, 164, 65, 0.03),
         transparent 60%
       );
-    background-attachment: fixed;
-    color: var(--color-fg);
+    pointer-events: none;
   }
 
   /* Typography */
@@ -148,6 +172,14 @@
   /* Smooth fade transitions between sections */
   section {
     position: relative;
+    contain: layout style;
+  }
+
+  .project-card,
+  .service-card,
+  .skill-card,
+  .stat-item {
+    contain: layout style paint;
   }
 
   /* Custom scrollbar */

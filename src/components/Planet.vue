@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-import * as THREE from 'three';
 
 const container = ref(null);
 const props = defineProps({
@@ -14,6 +13,8 @@ const props = defineProps({
   },
 });
 
+// Three.js module reference (loaded dynamically)
+let THREE;
 let renderer, scene, camera, frameId;
 let planet, ring, moon, moonOrbit;
 let rootGroup;
@@ -22,9 +23,12 @@ let isVisible = true;
 let intersectionObserver;
 let prefersReducedMotion;
 
-function init() {
-  // Renderer
+/** Dynamically imports Three.js and initializes the scene */
+async function init() {
+  // Dynamic import of Three.js - only loads when component mounts
+  THREE = await import('three');
 
+  // Renderer
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.setSize(container.value.clientWidth, container.value.clientHeight);
@@ -103,7 +107,7 @@ function init() {
   moonOrbit.add(moon);
 
   frameScene();
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('resize', onWindowResize, { passive: true });
 }
 
 function onWindowResize() {
@@ -162,14 +166,14 @@ function stopAnimation() {
   frameId = undefined;
 }
 
-onMounted(() => {
-  init();
+onMounted(async () => {
+  await init();
 
   prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const handlePRM = () => {
     if (prefersReducedMotion.matches) {
       stopAnimation();
-      renderer.render(scene, camera);
+      renderer?.render(scene, camera);
     } else if (isVisible) {
       startAnimation();
     }
@@ -183,7 +187,7 @@ onMounted(() => {
       startAnimation();
     } else {
       stopAnimation();
-      renderer.render(scene, camera);
+      renderer?.render(scene, camera);
     }
   }, { threshold: 0.1 });
   if (container.value) intersectionObserver.observe(container.value);
@@ -200,7 +204,7 @@ onMounted(() => {
   if (!prefersReducedMotion.matches) {
     startAnimation();
   } else {
-    renderer.render(scene, camera);
+    renderer?.render(scene, camera);
   }
 });
 onBeforeUnmount(() => {
@@ -208,6 +212,18 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onWindowResize);
   prefersReducedMotion?.removeEventListener?.('change', () => {});
   intersectionObserver?.disconnect?.();
+  
+  // Dispose Three.js resources to free memory
+  scene?.traverse((object) => {
+    if (object.geometry) object.geometry.dispose();
+    if (object.material) {
+      if (Array.isArray(object.material)) {
+        object.material.forEach((mat) => mat.dispose());
+      } else {
+        object.material.dispose();
+      }
+    }
+  });
   renderer?.dispose?.();
 });
 

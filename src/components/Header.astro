@@ -191,7 +191,7 @@ const { title, description } = Astro.props;
       window.requestAnimationFrame(updateHeaderOpacity);
       ticking = true;
     }
-  });
+  }, { passive: true });
 </script>
 
 <style>
